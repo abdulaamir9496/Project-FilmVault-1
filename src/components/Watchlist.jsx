@@ -1,5 +1,6 @@
+import PropTypes from "prop-types"
 
-const Watchlist = () => {
+const Watchlist = ({watchlist}) => {
     return (
         <>
 
@@ -28,18 +29,21 @@ const Watchlist = () => {
                     </thead>
 
                     <tbody>
-                        <tr className="border-b-2">
-                            <td className="flex item-center px-6 py-4">
-                                <img className="h-[8rem] w-[6rem]" src={`https://www.movieposters.com/cdn/shop/files/captain-america-brave-new-world_vxepsisb_240x360_crop_center.progressive.jpg?v=1732042120`} alt="" />
-                                <div className="mx-10 justify-center">Capitan America</div>
-                            </td>
+                        {watchlist.map((movieObj) => {
+                            return <tr key={movieObj} className="border-b-2">
+                                <td className="flex item-center px-6 py-4">
+                                    <img className="h-[8rem] w-[6rem]" src={`https://image.tmdb.org/t/p/original/${movieObj.poster_path}`} alt="" />
+                                    <div className="mx-10 justify-center">{movieObj.title}</div>
+                                </td>
 
-                            <td>8.5</td>
-                            <td>9</td>
-                            <td>Action</td>
-                            <td>Yes</td>
-                            <td><button className="hover:bg-red-200 text-red-500 font-bold">Delete</button></td>
-                        </tr>
+                                <td>{movieObj.vote_average}</td>
+                                <td>{movieObj.popularity}</td>
+                                <td>Action</td>
+                                <td>Yes</td>
+
+                                <td><button className="hover:bg-red-200 text-red-500 font-bold">Delete</button></td>
+                            </tr>
+                        })}
                     </tbody>
                 </table>
             </div>
@@ -47,4 +51,10 @@ const Watchlist = () => {
     )
 }
 
+Watchlist.propTypes = {
+    watchlist: PropTypes.arrayOf(PropTypes.object).isRequired
+}
+
 export default Watchlist
+
+//https://www.movieposters.com/cdn/shop/files/captain-america-brave-new-world_vxepsisb_240x360_crop_center.progressive.jpg?v=1732042120

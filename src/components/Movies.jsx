@@ -2,8 +2,9 @@ import { useEffect, useState } from "react"
 import MovieCard from "./MovieCard"
 import axios from "axios"
 import Pagination from "./Pagination"
+import PropTypes from "prop-types"
 
-const Movies = () => {
+const Movies = ({handleAddtoWatchlist, handleRemoveFromWatchList, watchlist}) => {
 
     const [movies, setMovies] = useState([])
     const [pageNo, setPageNo] = useState(1)
@@ -39,7 +40,14 @@ const Movies = () => {
 
                 <div className="flex flex-row flex-wrap justify-evenly">
                     {movies.map((movieObj) => {
-                        return <MovieCard key={movieObj.id} poster_path={movieObj.poster_path} name={movieObj.original_title} />
+                        return <MovieCard 
+                            key={movieObj.id} 
+                            movieObj={movieObj} 
+                            poster_path={movieObj.poster_path} 
+                            name={movieObj.original_title} 
+                            handleAddtoWatchlist={handleAddtoWatchlist} 
+                            handleRemoveFromWatchList={handleRemoveFromWatchList} 
+                            Watchlist={watchlist} />
                     })}
                 </div>
                 
@@ -51,5 +59,10 @@ const Movies = () => {
 
 export default Movies
 
+Movies.propTypes = {
+    handleAddtoWatchlist: PropTypes.func.isRequired,
+    handleRemoveFromWatchList: PropTypes.func.isRequired,
+    watchlist: PropTypes.array.isRequired
+}
 
 //https://api.themoviedb.org/3/movie/popular?api_key=41c8ad6df5886d1d123172371597a068&language=en-US&page=1
