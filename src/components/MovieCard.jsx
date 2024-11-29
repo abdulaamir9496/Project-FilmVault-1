@@ -25,19 +25,19 @@ const MovieCard = ({
                 }}
             >
                 {doesContain(movieObj) ? (
-                    <div 
-                        onClick={() => {handleRemoveFromWatchList(movieObj)}} 
-                        className='m-4 flex justify-center h-8 w-8 items-center rounded-lg bg-gray-900/60'
-                    >
-                        &#x274C;
-                    </div>
+                <div 
+                    onClick={() => {handleAddtoWatchlist(movieObj)}} 
+                    className='m-4 flex justify-center h-8 w-8 items-center rounded-lg bg-gray-900/60'
+                >
+                    &#128525;
+                </div>
                 ) : 
-                    <div 
-                        onClick={() => {handleAddtoWatchlist(movieObj)}} 
-                        className='m-4 flex justify-center h-8 w-8 items-center rounded-lg bg-gray-900/60'
-                    >
-                        &#128525;
-                    </div>
+                <div 
+                    onClick={() => {handleRemoveFromWatchList(movieObj)}} 
+                    className='m-4 flex justify-center h-8 w-8 items-center rounded-lg bg-gray-900/60'
+                >
+                    &#x274C;
+                </div>
                 }
                 <div className="text-white text-xl w-full p-1 text-center bg-gray-900/60">{name}</div>
             </div>

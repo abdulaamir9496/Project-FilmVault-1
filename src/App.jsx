@@ -13,12 +13,12 @@ function App() {
   // There is something better then this to use which is called as ContextAPI. 
   // By using Context API, we can get rid of prop drilling. 
   // In Context API we don't need to worry about drilling properties and methods from each and every component one by one.
-  let [watchlist, setWatchlist] = useState([])
+  let [watchlist, setWatchList] = useState([])
 
   let handleAddtoWatchlist = (movieObj) => {
     let newWatchList = [...watchlist, movieObj]
     localStorage.setItem('moviesApp', JSON.stringify(newWatchList))
-    setWatchlist(newWatchList)  
+    setWatchList(newWatchList)  
     console.log(newWatchList)
   }
 
@@ -26,7 +26,7 @@ function App() {
     let filterWatchlist = watchlist.filter((movie) => {
       return movie.id != movieObj.id 
     })
-    setWatchlist(filterWatchlist)
+    setWatchList(filterWatchlist)
     console.log(filterWatchlist)
   }
 
@@ -39,8 +39,8 @@ function App() {
     if(!moviesFromLocalStorage) {
       return
     }
-    setWatchlist(JSON.parse(moviesFromLocalStorage))
-  })
+    setWatchList(JSON.parse(moviesFromLocalStorage))
+  }, [])
 
   return (
     <>
@@ -55,7 +55,7 @@ function App() {
             </>
           } 
           />  
-          <Route path="/watchlist" element={<Watchlist watchlist={watchlist}/>} />
+          <Route path="/watchlist" element={<Watchlist watchlist={watchlist} setWatchList={setWatchList} />} />
         </Routes>
       </BrowserRouter>
     </>
