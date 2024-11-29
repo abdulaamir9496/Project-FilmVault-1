@@ -1,7 +1,7 @@
 import "./App.css";
 import Navbar from "./components/Navbar"
 import Movies from "./components/Movies";
-import Watchlist from "./components/Watchlist";
+import Watchlist from "./components/WatchList";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Banner from "./components/Banner";
 import { useEffect, useState } from "react";
@@ -13,21 +13,21 @@ function App() {
   // There is something better then this to use which is called as ContextAPI. 
   // By using Context API, we can get rid of prop drilling. 
   // In Context API we don't need to worry about drilling properties and methods from each and every component one by one.
-  let [watchlist, setWatchList] = useState([])
+  let [watchList, setWatchList] = useState([])
 
-  let handleAddtoWatchlist = (movieObj) => {
-    let newWatchList = [...watchlist, movieObj]
+  let handleAddToWatchList = (movieObj) => {
+    let newWatchList = [...watchList, movieObj]
     localStorage.setItem('moviesApp', JSON.stringify(newWatchList))
     setWatchList(newWatchList)  
-    console.log(newWatchList)
+    // console.log(newWatchList)
   }
 
   let handleRemoveFromWatchList = (movieObj) => {
-    let filterWatchlist = watchlist.filter((movie) => {
-      return movie.id != movieObj.id 
+    let filterWatchList = watchList.filter((movie) => {
+      return movie.id !== movieObj.id 
     })
-    setWatchList(filterWatchlist)
-    console.log(filterWatchlist)
+    setWatchList(filterWatchList)
+    // console.log(filterWatchList)
   }
 
   //This use effect will look at the local storage, if there is something in the local storage, 
@@ -51,11 +51,17 @@ function App() {
         <Routes>
           <Route path="/" element={
             <>
-              <Banner /> <Movies watchlist={watchlist} handleAddtoWatchlist={handleAddtoWatchlist} handleRemoveFromWatchList={handleRemoveFromWatchList}/>
+              <Banner /> 
+              <Movies 
+                watchList={watchList} 
+                handleAddToWatchList={handleAddToWatchList} 
+                handleRemoveFromWatchList={handleRemoveFromWatchList}
+              />
             </>
-          } 
-          />  
-          <Route path="/watchlist" element={<Watchlist watchlist={watchlist} setWatchList={setWatchList} />} />
+          } />
+          <Route 
+            path="/watchlist" 
+            element={<Watchlist watchList={watchList} setWatchList={setWatchList} />} />
         </Routes>
       </BrowserRouter>
     </>
