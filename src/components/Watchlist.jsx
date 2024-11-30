@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import genreids from "../Utility/Genre";
 import PropTypes from "prop-types";                             
 
-const WatchList = ({ watchList, setWatchList }) => {
+const WatchList = ({ watchList, setWatchList, handleRemoveFromWatchList }) => {
     const [search, setSearch] = useState("");
     const [genreList, setGenreList] = useState(["All Genres"]);
-    const [currGenre, setCurrGenre] = useState(["All Genres"]);
+    const [currGenre, setCurrGenre] = useState("All Genres");
 
     let handleSearch = (e) => {
         setSearch(e.target.value);
@@ -33,7 +33,9 @@ const WatchList = ({ watchList, setWatchList }) => {
         let temp = watchList.map((movieObj) => {
             return genreids[movieObj.genre_ids[0]];
         });
+        temp = new Set(temp) //Genre's will not repeat by this Set
         setGenreList(["All Genres", ...temp]);
+        console.log(temp)
     }, [watchList]);
 
     return (
@@ -44,7 +46,7 @@ const WatchList = ({ watchList, setWatchList }) => {
                         <div 
                             onClick={() => handleFilter(genre)}
                             key={index} 
-                            className="flex justify-center items-center h-[3rem] w-[9rem] bg-blue-400 rounded-xl text-white font-bold mx-2"
+                            className={currGenre == genre ?  "flex justify-center items-center h-[3rem] w-[9rem] bg-blue-400 rounded-xl text-white font-bold mx-4" : "flex justify-center items-center h-[3rem] w-[9rem] bg-blue-400/50 rounded-xl text-white font-bold mx-4" } 
                         >
                             {genre}
                         </div>
@@ -83,7 +85,14 @@ const WatchList = ({ watchList, setWatchList }) => {
                     </thead>
 
                     <tbody>
-                    {watchList
+                    {watchList.filter((movieObj) => {
+                        if(currGenre == 'All Genres') {
+                            return true
+                        }
+                        else {
+                            return genreids[movieObj.genre_ids[0]] == currGenre;
+                        }
+                    })
                         .filter((movieObj) => {
                             return movieObj.title
                                 .toLowerCase()
@@ -103,10 +112,10 @@ const WatchList = ({ watchList, setWatchList }) => {
                             <td>{movieObj.popularity}</td>
                             <td>{genreids[movieObj.genre_ids[0]]}</td>
                             <td>Yes</td>
-                            <td>
-                                <button className="hover:bg-red-200 text-red-500 font-bold">
-                                    Delete
-                                </button>
+                            <td 
+                                onClick={() => handleRemoveFromWatchList(movieObj)}
+                                className="hover:bg-red-200 text-red-500 font-bold">
+                                <button>Delete</button>
                             </td>
                         </tr>
                         ))}
@@ -120,6 +129,7 @@ const WatchList = ({ watchList, setWatchList }) => {
 WatchList.propTypes = {
     watchList: PropTypes.arrayOf(PropTypes.object).isRequired,
     setWatchList: PropTypes.func.isRequired,
+    handleRemoveFromWatchList: PropTypes.func.isRequired
 };
 
 export default WatchList;
